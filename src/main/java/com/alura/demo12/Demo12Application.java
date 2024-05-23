@@ -1,5 +1,6 @@
 package com.alura.demo12;
 
+import com.Principal.EjemploStreams;
 import com.Principal.Principal;
 import com.model.DatosEpisodio;
 import com.model.DatosSerie;
@@ -27,6 +28,9 @@ public class Demo12Application implements CommandLineRunner {
 
 		Principal principal=new Principal();
 		principal.muestraElMenu();
+
+//		EjemploStreams ejemplo=new EjemploStreams();
+//		ejemplo.muestra();
 
 
 

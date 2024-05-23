@@ -7,8 +7,10 @@ import com.service.ConsumoApi;
 import com.service.ConvierteDatos;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Principal {
 
@@ -26,9 +28,9 @@ public class Principal {
         var nombreSerie=teclado.nextLine();
 //        var json=consumo.obtenerDatos("http://www.omdbapi.com/?t=game+of+thrones&apikey=8235eb31&");
         var json=consumo.obtenerDatos(URL_BASE+nombreSerie.replace(" ","+")+API_KEY);
-        System.out.println(json);
+//        System.out.println(json);
         var datos=conversor.obtenerDatos(json, DatosSerie.class);
-        System.out.println(datos);
+//        System.out.println(datos);
         //busca los datos de todas las temporadas
 
         List<DatosTemporadas> temporadas=new ArrayList<>();
@@ -48,7 +50,20 @@ public class Principal {
 //            }
 //        }
 
-        temporadas.forEach(t->t.episodios().forEach(e-> System.out.println(e.titulo())));
+        //temporadas.forEach(t->t.episodios().forEach(e-> System.out.println(e.titulo())));
+
+        // Convertir todas las informaciones en una lista del tipo Datos Episodio
+
+
+
+        List<DatosEpisodio> datosEpisodio= temporadas.stream().flatMap(t->t.episodios().stream()).collect(Collectors.toList());//to list crea una lista inmutable , con el collect collector to list es una lista mutable
+
+
+
+        //top 5 episodios
+        System.out.println("5 Episodios");
+        datosEpisodio.stream().filter(e->!e.evaluacion().equalsIgnoreCase("N/A")).sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed()).limit(5).forEach(System.out::println);
+
     }
 }
 
